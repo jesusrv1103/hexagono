@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Admin;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Cliente extends Model
+{
+
+    protected $table= "clientes";
+    protected $fillable = ['nombre', 'rfc', 'correo','telefono','descuento'];
+}
