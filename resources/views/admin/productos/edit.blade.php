@@ -107,43 +107,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 text-left-right">
-
-
-                            <div class="form-group">
-                                <label for="material">Material:</label>
-                                <input type="text" name="material" class="form-control"
-                                    placeholder="Ingrese el material del producto" required minlegth="2" maxlength="20"
-                                    title="Solo se permiten letras. Tamaño mínimo: 2. Tamaño máximo: 20"
-                                    value="{{old('materia',$producto->material)}}">
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-md-6 text-left-right">
-                            <div class="form-group">
-                                <label for="nombre">Precio de compra:</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" name="precio_compra"
-                                        value="{{old('precio_compra',$producto->precio_compra)}}">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text"><i class="fas fa-box"></i></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                       
 
 
                         <div class="col-md-6 text-left-right">

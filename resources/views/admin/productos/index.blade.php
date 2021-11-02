@@ -29,11 +29,10 @@
                                 <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Tipo de <br>Producto</th>
-                                <th>Precio</th>
+                                <th>Codigo</th>
                                 <th>Categoria</th>
                                 <th>Medida</th>
-                                <th>Material</th>
-                                <th>Precio <br> de compra</th>
+                      
                                 <th>Precio <br> de venta</th>
                                 <th>Opciones</th>
                             </tr>
@@ -47,8 +46,7 @@
                                 <td>{{$producto->codigo}}</td>
                                 <td>{{$producto->categoria->nombre}}</td>
                                 <td>{{$producto->medida}}</td>
-                                <td>{{$producto->material}}</td>
-                                <td>{{$producto->precio_compra}}</td>
+                            
                                 <td>{{$producto->precio_venta}}</td>
                                 <td>
                                     <center>

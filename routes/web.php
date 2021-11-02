@@ -51,3 +51,9 @@ Route::resource('admin/usuarios', 'Admin\UserController')->parameters(['usuarios
 
 Route::get('admin/ventas/productosPorCategoria/{id}', 'Admin\CategoriaController@productosPorCategoria');
 Route::get('admin/ventas/obtenerDescuento/{id}', 'Admin\ClienteController@obtenerDescuento');
+
+
+Route::post('admin/guardar/ventas/{id}', 'Admin\VentaController@guardarEstadoVenta');
+
+Route::get('admin/ventas/ticket/{id}', 'Admin\VentaController@imprimirTicket')->name('admin.ventas.ticket');
+

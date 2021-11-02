@@ -27,9 +27,9 @@ class CreateVentasTable extends Migration
            // $table->BigInteger('estatus_id')->unsigned();
           //  $table->foreign('estatus_id')->references('id')->on('estatus');
 
-         
+             $table->boolean('entregado')->default(0);
             $table->string('comentarios')->nullable($value=true);;
-
+           
             $table->double('total', 8, 2);
             $table->boolean('pagado')->default(0);
             $table->boolean('estado')->default(1);

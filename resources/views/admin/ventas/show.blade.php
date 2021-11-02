@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('title')
-<h1 class="m-0 text-dark">Productos</h1>
+<h1 class="m-0 text-dark">Venta</h1>
 @endsection
 @section('content-header')
 <ol class="breadcrumb float-sm-right">
@@ -12,14 +12,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <form method="POST" action="{{route('admin.ventas.store')}}">
-                @csrf
+         
                 <!-- Main content -->
                 <div class="invoice p-3 mb-3">
                     <!-- title row -->
                     <div class="row">
                         <div class="col-4">
-                            <i class="fas fa-globe"></i> &nbsp;&nbsp;<strong>Venta &nbsp;&nbsp;</strong><br> {{$venta->id}}
+                            <i class="fas fa-globe"></i> &nbsp;&nbsp;<strong>Venta &nbsp;&nbsp;</strong><br> #{{$venta->id}}
                         </div>
 
                         <div class="col-4">
@@ -46,7 +45,7 @@
                     <br>
                     <div class="row">
 
-                    <div class="col-4">
+                    <div class="col-3">
                             <i class="fas fa-globe"></i>&nbsp;&nbsp;<strong>Fecha de entrega
                                 &nbsp;&nbsp;</strong><br>
                             {{$venta->fecha_entrega}}
@@ -54,7 +53,7 @@
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
                             <i class="fas fa-globe"></i>&nbsp;&nbsp;<strong>Cliente
                                 &nbsp;&nbsp;</strong><br>
                             {{$venta->cliente->nombre}}
@@ -63,11 +62,18 @@
 
 
 
-                        <div class="col-4">
+                        <div class="col-3">
+                            <i class="fas fa-globe"></i>&nbsp;&nbsp;<strong>Forma de Pago
+                                &nbsp;&nbsp;</strong><br>
+                                {{$venta->pagos->first()->forma_pago->nombre}}
+                        </div>
+
+                        <div class="col-3">
                             <i class="fas fa-globe"></i>&nbsp;&nbsp;<strong>Anticipo
                                 &nbsp;&nbsp;</strong><br>
-                            {{$venta->cliente->nombre}}
+                                ${{number_format($venta->pagos->first()->monto_pago,2)}}
                         </div>
+                        
 
 
 
@@ -103,6 +109,33 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @foreach($venta->detalle_venta as $detalleVenta)
+                                <td style="width=15%;">{{$detalleVenta->producto->nombre}}</td>
+                                <td style="width=12%;">${{number_format($detalleVenta->producto->precio_venta,2)}}</td>
+                                <td style="width=12%;">{{$detalleVenta->cantidad}}</td>
+                                <td style="width=12%;">{{$detalleVenta->ancho}}</td>
+                                <td style="width=12%;">{{$detalleVenta->alto}}</td>
+                                <td style="width=12%;">
+                                  
+                                    @if($detalleVenta->producto->tipo_producto =="pieza")
+                                        $0.00
+                                    @else
+                                    ${{ number_format(($detalleVenta->ancho  *$detalleVenta->alto)*$detalleVenta->producto->precio_venta,2) }}
+                                    @endif
+                                
+                            
+                                </td>
+                                <td style="width=13%;">
+                                    @if($detalleVenta->producto->tipo_producto =="pieza")
+                                    ${{number_format($detalleVenta->cantidad*$detalleVenta->producto->precio_venta,2) }}
+                                    @else
+                                    ${{$total_x_area= number_format((($detalleVenta->ancho  *$detalleVenta->alto)*$detalleVenta->producto->precio_venta)*$detalleVenta->cantidad,2) }}
+                                    @endif
+                                  
+                                </td>
+                                <tr>
+                               
+                            @endforeach
 
 
 
@@ -123,7 +156,7 @@
                         <div class="form-group">
                             <label>Comentarios</label>
                             <textarea style="resize: none;" class="form-control" name="comentarios" rows="3"
-                                placeholder="Ingresar ...">{{$venta->comentario}}</textarea>
+                                placeholder="Ingresar ..." disabled>{{$venta->comentarios}}</textarea>
 
 
                         </div>
@@ -142,7 +175,12 @@
                                 <tr>
                                     <th>SubTotal:</th>
                                     <td>
-                                        <h6 id="sub_total_venta">$/.0.00</h4>
+                                        <h6 id="sub_total_venta">
+                                            @php
+                                                $total=($venta->total/(100-$venta->cliente->descuento))*100;
+                                                echo number_format($total,2);
+                                            @endphp
+                                        </h4>
                                     </td>
                                 </tr>
                                 <tr>
@@ -154,7 +192,7 @@
                                 <tr>
                                     <th>Total:</th>
                                     <td>
-                                        <h6 id="lbl_total">{{$venta->total}}</h4><input hidden name="total_venta"
+                                        <h6 id="lbl_total"></h4><input hidden name="total_venta"
                                                 id="total_venta">
                                     </td>
                                 </tr>
@@ -166,15 +204,9 @@
                 <!-- /.row -->
 
                 <!-- this row will not appear when printing -->
-                <div class="row no-print">
-
-                    <button type="submit" class="btn btn-success float-right"><i class="far fa-credit-card"></i>
-                        Registrar Venta
-                    </button>
-
-                </div>
+             
         </div>
-        </form>
+    
     </div>
     <!-- /.invoice -->
 </div><!-- /.col -->

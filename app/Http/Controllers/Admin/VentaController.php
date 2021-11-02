@@ -13,6 +13,7 @@ use App\Admin\Pago;
 use App\Admin\Categoria;
 use Carbon\Carbon;
 use DB;
+use PDF;
 
 use Illuminate\Support\Facades\Redirect;
 
@@ -170,6 +171,40 @@ class VentaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $id= Crypt::decryptString($id);
+        $venta=Venta::findOrFail($id);
+        //Aplicamos Politica de Acceso al metodo correspondiente
+        $venta->estado=0;
+        $venta->update();
+        return back()->with('mensaje','Se ha eliminado la venta');
     }
+
+
+    public function guardarEstadoVenta($id)
+    {
+
+        
+        $venta=Venta::findOrFail($id);
+        if( $venta->entregado ==1 ){
+            $venta->entregado= 0;
+        } else{
+            $venta->entregado= 1;
+        }
+        $venta->update();
+ 
+    }
+
+
+    public function imprimirTicket($id)
+    { 
+        $id= Crypt::decryptString($id);
+        $venta=Venta::findOrFail($id);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+         ->loadView('admin.ventas.ticket',compact('venta'));
+        return $pdf->download('invoice.pdf');
+
+
+
+    }
+
 }

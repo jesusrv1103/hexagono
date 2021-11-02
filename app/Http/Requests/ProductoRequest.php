@@ -31,7 +31,7 @@ class ProductoRequest extends FormRequest
             'tipo_producto' => 'required',
             'categoria_id' => 'required',
             'material' => '',
-            'precio_compra' => 'required',
+            'precio_compra' => '',
             'precio_venta' => 'required',
             'descripcion' => '',
         ];
